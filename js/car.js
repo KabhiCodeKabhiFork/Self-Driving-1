@@ -7,7 +7,7 @@ class Car{
 
         this.speed = 0;
         this.acceleration = 0.2;
-        this.maxSpeed = 3;
+        this.maxSpeed = 2;
         this.friction = 0.05;
 
         this.angle = -Math.PI/2;
@@ -23,10 +23,10 @@ class Car{
             this.speed -= this.acceleration;
         }
         if(this.controls.left){
-            this.angle += 0.99;
+            this.angle += 0.1;
         }
         if(this.controls.right){
-            this.angle -= 0.99;
+            this.angle -= 0.1;
         }
         if(this.speed > this.maxSpeed){
             this.speed = this.maxSpeed;

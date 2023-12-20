@@ -3,7 +3,7 @@ myCanvas.width = 200;
 
 const ctx = myCanvas.getContext('2d');
 const road = new Road(myCanvas.width/2,myCanvas.width*0.9);//Adding a new road object
-const car = new Car(100,400,50,30); //Adding a new car object
+const car = new Car(road.getLaneCentre(0),400,50,30); //Adding a new car object
 
 animate();
 
