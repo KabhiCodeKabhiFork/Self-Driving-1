@@ -24,7 +24,7 @@ class Controls{
                 this.right = true;
                 break;
         }
-        console.table(this)   
+        // console.table(this)   
         //This will provide a table in the console allowing you to see if the keys are being pressed
       }   
       document.onkeyup = (e) => {
