@@ -3,18 +3,27 @@ myCanvas.width = 200;
 
 const ctx = myCanvas.getContext('2d');
 const road = new Road(myCanvas.width/2,myCanvas.width*0.7);//Adding a new road object
-const car = new Car(100,100,30,50); //Adding a new car object
+const car = new Car(100,100,30,50,"KEYS"); //Adding a new car object
+const traffic= [
+    new Car(100,-100,30,50,"DUMMY",2)
+]
 
 animate();
 
 function animate(){//This function refreshes 60 times per second
-    car.update(road.borders);
+    for(let i=0;i<traffic.length;i++){
+        traffic[i].update([],[]);
+    }
+    car.update(road.borders,traffic);
 
     myCanvas.height = window.innerHeight; //This is not a good practice to use myCanvas just like this because myCanvas is a global variable and if it is modified elsewhere it can change here too
     
     ctx.translate(0,-car.y+myCanvas.height*0.7);
     
     road.draw(ctx);
+    for(let i=0;i<traffic.length;i++){
+        traffic[i].draw(ctx);
+    }
     car.draw(ctx);
     requestAnimationFrame(animate); //Calls the animate function again and again
 }

@@ -1,5 +1,5 @@
 class Car{
-    constructor(x,y,width,height){
+    constructor(x,y,width,height,controlType,maxSpeed=3){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -7,29 +7,39 @@ class Car{
 
         this.speed = 0;
         this.acceleration = 0.2;
-        this.maxSpeed = 3;
+        this.maxSpeed = maxSpeed;
         this.friction = 0.05;
-
-        this.sensor = new Sensor(this);
+        if(controlType != "DUMMY"){
+            this.sensor = new Sensor(this);
+        }
+        // this.sensor = new Sensor(this);
         this.damaged = false;
 
         this.angle = 0;
 
-        this.controls = new Controls();
+        this.controls = new Controls(controlType);
     }
-    update(borders){
+    update(borders, traffic){
         if(!this.damaged){
             this.#move();
         this.polygon = this.#createPolygon();
-        this.damaged = this.#assessDamage(this.polygon,borders);
-        this.sensor.update(borders);
+        this.damaged = this.#assessDamage(borders,traffic);
+        if(this.sensor){
+            this.sensor.update(borders,traffic);};
         }
         
     }
-    #assessDamage(polygon,borders){
+    #assessDamage(borders, traffic){
         for(let i=0;i<borders.length;i++){
             if(polygonTouch([...this.polygon,this.polygon[0]],
                 borders[i] )){
+                return true;
+            }
+        }
+        for(let i=0;i<traffic.length;i++){
+            const poly= traffic[i].polygon;
+            if(polygonTouch([...this.polygon,this.polygon[0]],
+                [...poly,poly[0]])){
                 return true;
             }
         }
@@ -107,7 +117,9 @@ class Car{
         }
         // console.log(this.polygon);
         ctx.fill();
-        this.sensor.draw(ctx);
+        if(this.sensor){
+            this.sensor.draw(ctx);
+        }
          
     }
 }  // End of class Car
