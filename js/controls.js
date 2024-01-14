@@ -1,11 +1,18 @@
 class Controls{
-    constructor(){
+    constructor(type){
         this.forward = false;
         this.backward = false;
         this.left = false;
         this.right = false;
-
-        this.#addListeners(); // This is a private method
+        switch(type){
+            case 'KEYS':
+                this.#addListeners();
+                break;
+            case 'DUMMY':
+                this.forward = true;
+                break;
+        }
+        // this.#addListeners(); // This is a private method
     }
 
     #addListeners(){
