@@ -1,9 +1,12 @@
-myCanvas.height = window.innerHeight; //This is not a good practice to use myCanvas just like this because myCanvas is a global variable and if it is modified elsewhere it can change here too
-myCanvas.width = 200;
+carCanvas.height = window.innerHeight; //This is not a good practice to use carCanvas just like this because carCanvas is a global variable and if it is modified elsewhere it can change here too
+carCanvas.width = 200;
+networkCanvas.height = window.innerHeight; //This is not a good practice to use carCanvas just like this because carCanvas is a global variable and if it is modified elsewhere it can change here too
+networkCanvas.width = 300;
 
-const ctx = myCanvas.getContext('2d');
-const road = new Road(myCanvas.width/2,myCanvas.width*0.7);//Adding a new road object
-const car = new Car(100,100,30,50,"KEYS"); //Adding a new car object
+const carCtx = carCanvas.getContext('2d');
+const networkCtx = networkCanvas.getContext('2d');
+const road = new Road(carCanvas.width/2,carCanvas.width*0.7);//Adding a new road object
+const car = new Car(100,100,30,50,"AI"); //Adding a new car object
 const traffic= [
     new Car(100,-100,30,50,"DUMMY",2)
 ]
@@ -16,14 +19,18 @@ function animate(){//This function refreshes 60 times per second
     }
     car.update(road.borders,traffic);
 
-    myCanvas.height = window.innerHeight; //This is not a good practice to use myCanvas just like this because myCanvas is a global variable and if it is modified elsewhere it can change here too
+    carCanvas.height = window.innerHeight; //This is not a good practice to use carCanvas just like this because carCanvas is a global variable and if it is modified elsewhere it can change here too
+    networkCanvas.height = window.innerHeight; //This is not a good practice to use carCanvas just like this because carCanvas is a global variable and if it is modified elsewhere it can change here too
     
-    ctx.translate(0,-car.y+myCanvas.height*0.7);
+    carCtx.translate(0,-car.y+carCanvas.height*0.7);
     
-    road.draw(ctx);
+    road.draw(carCtx);
     for(let i=0;i<traffic.length;i++){
-        traffic[i].draw(ctx);
+        traffic[i].draw(carCtx);
     }
-    car.draw(ctx);
+    car.draw(carCtx);
+
+    Visualizer.drawNetwork(networkCtx,car.brain);
+
     requestAnimationFrame(animate); //Calls the animate function again and again
 }

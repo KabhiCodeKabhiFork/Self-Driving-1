@@ -1,10 +1,14 @@
 body{
     margin: 0;
-    background: rgb(150, 63, 20);
+    background: rgb(95, 45, 104);
     overflow: hidden;
     text-align: center;
 }
 
-#myCanvas{
-    background: rgb(53, 67, 53);
+#carCanvas{
+    background: rgb(179, 67, 30);
+}
+#networkCanvas{
+    background: rgb(4, 21, 47);
+    /* margin: 50; */
 }

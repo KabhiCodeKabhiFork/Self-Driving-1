@@ -25,8 +25,8 @@ class Road{
             this.borders[0].push({x:x+this.left,y:y});
             this.borders[1].push({x:x+this.right,y:y});
         }
-        //this.borders[0].push(botomLeft);
-        //this.borders[1].push(bottomRight);
+        this.borders[0].push(botomLeft);
+        this.borders[1].push(bottomRight);
     }
 
     getLaneCentre(lane){

@@ -9,10 +9,13 @@ class Car{
         this.acceleration = 0.2;
         this.maxSpeed = maxSpeed;
         this.friction = 0.05;
+        this.contolType = controlType;
         if(controlType != "DUMMY"){
             this.sensor = new Sensor(this);
+            this.brain = new NeuralNetwork([this.sensor.rayCount,8,4]);
         }
         // this.sensor = new Sensor(this);
+        this.useBrain = controlType == "AI";
         this.damaged = false;
 
         this.angle = 0;
@@ -22,12 +25,24 @@ class Car{
     update(borders, traffic){
         if(!this.damaged){
             this.#move();
-        this.polygon = this.#createPolygon();
-        this.damaged = this.#assessDamage(borders,traffic);
-        if(this.sensor){
-            this.sensor.update(borders,traffic);};
+            this.polygon = this.#createPolygon();
+            this.damaged = this.#assessDamage(borders,traffic);
         }
         
+        if(this.contolType != "DUMMY"){
+            this.sensor.update(borders,traffic);
+            //Higher the value of the reading, the closer the object is
+            // console.log(this);x
+            const offsets = this.sensor.readings.map(reading=>reading==null?0:1-reading.offset);
+            // console.log(offsets);
+            const outputs = NeuralNetwork.feedForward(offsets, this.brain);
+            if(this.useBrain){
+                this.controls.forward = outputs[0];
+                this.controls.left = outputs[1];
+                this.controls.right = outputs[2];
+                this.controls.backward = outputs[3];
+            }
+        }
     }
     #assessDamage(borders, traffic){
         for(let i=0;i<borders.length;i++){
@@ -77,10 +92,10 @@ class Car{
             this.speed -= this.acceleration;
         }
         if(this.controls.left){
-            this.angle += 0.1;
+            this.angle += 0.05;
         }
         if(this.controls.right){
-            this.angle -= 0.1;
+            this.angle -= 0.05;
         }
         if(this.speed > this.maxSpeed){
             this.speed = this.maxSpeed;
