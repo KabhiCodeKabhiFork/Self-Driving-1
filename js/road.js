@@ -10,8 +10,6 @@ class Road{
         this.top = -infinity;
         this.bottom = infinity;
 
-        
-
         const topLeft = {x:this.left,y:this.top};
         const topRight = {x:this.right,y:this.top}; 
         const botomLeft = {x:this.left,y:this.bottom};
@@ -20,8 +18,8 @@ class Road{
             [topLeft],
             [topRight]
         ];
-        for(let y=-1000;y<=0;y++){
-            const x = Math.sin(y/80)*50;
+        for(let y=-1100;y<=0;y++){
+            const x = Math.sin(y/90)*60;
             this.borders[0].push({x:x+this.left,y:y});
             this.borders[1].push({x:x+this.right,y:y});
         }
@@ -38,6 +36,7 @@ class Road{
         ctx.lineWidth = 5;
         ctx.strokeStyle = "white";
 
+        // console.log("hello");
         // ctx.setLineDash([20,20 ]);
         // for(let i=1;i<this.laneCount;i++){
         //     const x = lerp(this.left,this.right,i/this.laneCount);

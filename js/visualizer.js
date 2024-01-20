@@ -8,7 +8,8 @@ class Visualizer{
 
         const levelHeight = height/(network.levels.length);
 
-        for(let i=0;i<network.levels.length;i++){
+        for(let i=network.levels.length-1;i>=0;i--){
+            
             const levelTop = top+
                 lerp(height-levelHeight,
                     0,
@@ -17,7 +18,7 @@ class Visualizer{
             Visualizer.drawLevel(ctx,network.levels[i],
                 left,levelTop,
                 width,levelHeight,
-                i==network.levels.length-1?["⬆","⬇","⬅","➡"]:[]);
+                i==network.levels.length-1?["⬆","⬅","➡","⬇"]:[]);
         }
 
     }
@@ -28,9 +29,9 @@ class Visualizer{
 
         const nodeRadius = 18;
 
-        const {inputs,outputs} = level;
+        const {inputs,outputs,weights,biases} = level;
 
-        for(let i=0;i<level.inputs.length;i++){
+        for(let i=0;i<inputs.length;i++){
             for(let j=0;j<outputs.length;j++){
                 ctx.beginPath();
                 ctx.moveTo(
@@ -43,12 +44,12 @@ class Visualizer{
                 );
                 ctx.lineWidth = 2;
 
-                ctx.strokeStyle = getRGBA(level.weights[i][j])
+                ctx.strokeStyle = getRGBA(weights[i][j])
                 ctx.stroke();
             }
         }
 
-        for(let i=0;i<level.inputs.length;i++){
+        for(let i=0;i<inputs.length;i++){
             const x = Visualizer.#getNodes(inputs,i,left,right);
             ctx.beginPath();
             ctx.arc(x,bottom,nodeRadius,0,Math.PI*2);
@@ -56,19 +57,19 @@ class Visualizer{
             ctx.fill();
             ctx.beginPath();
             ctx.arc(x,bottom,nodeRadius,0,Math.PI*2);
-            ctx.fillStyle = getRGBA(level.inputs[i]);
+            ctx.fillStyle = getRGBA(inputs[i]);
             ctx.fill();
         }
-        for(let i=0;i<level.outputs.length;i++){
+        for(let i=0;i<outputs.length;i++){
             const x = Visualizer.#getNodes(outputs,i,left,right);
             ctx.beginPath();
             ctx.arc(x,top,nodeRadius,0,Math.PI*2);
-            ctx.fillStyle = getRGBA(level.biases[i]);
+            ctx.fillStyle = getRGBA(biases[i]);
             ctx.fill();
             ctx.beginPath()
             ctx.lineWidth = 2;
             ctx.arc(x,top,nodeRadius,0,Math.PI*2);
-            ctx.strokeStyle = getRGBA(level.biases[i]);
+            ctx.strokeStyle = getRGBA(biases[i]);
             ctx.stroke();
             if(outputLabels[i]){
                 ctx.beginPath();

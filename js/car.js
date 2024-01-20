@@ -12,7 +12,7 @@ class Car{
         this.contolType = controlType;
         if(controlType != "DUMMY"){
             this.sensor = new Sensor(this);
-            this.brain = new NeuralNetwork([this.sensor.rayCount,8,4]);
+            this.brain = new NeuralNetwork([this.sensor.rayCount,6,4]);
         }
         // this.sensor = new Sensor(this);
         this.useBrain = controlType == "AI";
@@ -31,12 +31,14 @@ class Car{
         
         if(this.contolType != "DUMMY"){
             this.sensor.update(borders,traffic);
+
             //Higher the value of the reading, the closer the object is
-            // console.log(this);x
             const offsets = this.sensor.readings.map(reading=>reading==null?0:1-reading.offset);
-            // console.log(offsets);
             const outputs = NeuralNetwork.feedForward(offsets, this.brain);
+            // console.log(offsets);
+            
             if(this.useBrain){
+                // console.log(outputs);
                 this.controls.forward = outputs[0];
                 this.controls.left = outputs[1];
                 this.controls.right = outputs[2];
@@ -117,7 +119,7 @@ class Car{
         this.x -= Math.sin(this.angle)*this.speed;
     }
 
-    draw(ctx){
+    draw(ctx,drawSensors=false){
         if(this.damaged){
             ctx.fillStyle = "red";
         }
@@ -132,7 +134,7 @@ class Car{
         }
         // console.log(this.polygon);
         ctx.fill();
-        if(this.sensor){
+        if(this.sensor && drawSensors){
             this.sensor.draw(ctx);
         }
          
