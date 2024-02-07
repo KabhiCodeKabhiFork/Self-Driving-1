@@ -12,7 +12,7 @@ class Car{
         this.contolType = controlType;
         if(controlType != "DUMMY"){
             this.sensor = new Sensor(this);
-            this.brain = new NeuralNetwork([this.sensor.rayCount,6,4]);
+            this.brain = new NeuralNetwork([this.sensor.rayCount,6,3,5]);
         }
         // this.sensor = new Sensor(this);
         this.useBrain = controlType == "AI";
@@ -43,6 +43,7 @@ class Car{
                 this.controls.left = outputs[1];
                 this.controls.right = outputs[2];
                 this.controls.backward = outputs[3];
+                this.speed += outputs[4]*this.acceleration;
             }
         }
     }

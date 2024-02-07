@@ -18,12 +18,12 @@ let bestCar = cars[0];
 if(localStorage.getItem("bestBrain")){
     for(let i=0;i<cars.length;i++){
         cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
-        // if(i>0){
-            //     NeuralNetwork.mutate(cars[i].brain,0.07);
-            // }
-            // console.log(cars[i].brain);
-        }
+        if(i>0){
+                NeuralNetwork.mutate(cars[i].brain,0.12);
+            }
+            console.log(cars[i].brain);
     }
+}
     console.log(cars[0].brain);
 
 animate();
@@ -36,7 +36,7 @@ function animate(){//This function refreshes 60 times per second
     for(let i=0;i<cars.length;i++){
         cars[i].update(road.borders,traffic);
     }
-    const bestCar = cars.find(c=>c.y==Math.min(...cars.map(c=>c.y)));
+    bestCar = cars.find(c=>c.y==Math.min(...cars.map(c=>c.y)));
 
     carCanvas.height = window.innerHeight;
     networkCanvas.height = window.innerHeight; 
@@ -67,6 +67,7 @@ function generateCars(N){
 }
 
 function save(){
+    console.log(bestCar.brain)
     localStorage.setItem("bestBrain",JSON.stringify(bestCar.brain));
     console.log(bestCar.brain);
     console.log(localStorage.getItem("bestBrain"));

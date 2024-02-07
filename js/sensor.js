@@ -1,7 +1,7 @@
 class Sensor{
     constructor(car){
         this.car = car;
-        this.rayCount = 6;
+        this.rayCount = 9;
         this.rayLength = 200;
         this.rayAngle = Math.PI/2;
         // console.log(this.rayAngle);
