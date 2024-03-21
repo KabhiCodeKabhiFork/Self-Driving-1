@@ -21,10 +21,10 @@ if(localStorage.getItem("bestBrain")){
         if(i>0){
                 NeuralNetwork.mutate(cars[i].brain,0.12);
             }
-            console.log(cars[i].brain);
+            // console.log(cars[i].brain);
     }
 }
-    console.log(cars[0].brain);
+    // console.log(cars[0].brain);
 
 animate();
 
@@ -67,12 +67,36 @@ function generateCars(N){
 }
 
 function save(){
-    console.log(bestCar.brain)
+    // console.log(bestCar.brain)
     localStorage.setItem("bestBrain",JSON.stringify(bestCar.brain));
-    console.log(bestCar.brain);
-    console.log(localStorage.getItem("bestBrain"));
+    console.log("Saved")
+    // console.log(bestCar.brain);
+    // console.log(localStorage.getItem("bestBrain"));
 }
 
 function discard(){
     localStorage.removeItem("bestBrain");
+    console.log("Discarded")
 }
+carCanvas.addEventListener('click', function(event){
+    let x = event.clientX - carCanvas.getBoundingClientRect().left;
+    let y = bestCar.y - carCanvas.height*0.7+event.clientY - carCanvas.getBoundingClientRect().top;
+    traffic.push(new Car(x, y, 30, 50, "DUMMY", 2));
+});
+
+numberOfCarsInput.addEventListener('change', function (event) {
+    // Get the new value of N from the input
+    const newN = parseInt(event.target.value);
+
+    // Check if the new value is valid
+    if (newN >= 1) {
+        // Update the value of N in local storage
+        localStorage.setItem('numberOfCars', newN);
+
+        // Refresh the page
+        location.reload();
+    } else {
+        // Handle invalid input (optional)
+        console.log("Invalid input value. Please enter a number greater than or equal to 1.");
+    }
+});
