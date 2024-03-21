@@ -23,8 +23,10 @@
     <canvas id="carCanvas"></canvas><canvas id="networkCanvas"></canvas>
     
     <div>
-        <button >SAVE</button>
-        <button >DISCARD</button>
+        <label for="mutationRate" id="labelforcount">Specify extent of mutation:</label>
+        <input type="number" id="mutationRate" name="mutationRate" min="1" placeholder="0-100" onchange="doIt()">
+        <button onclick="save()">SAVE</button>
+        <button onclick="discard()">DISCARD</button>
     </div>
     <script src="js/visualizer.js"></script>
     <script src="js/network.js"></script>
