@@ -35,7 +35,7 @@ class Sensor{
             }
         });
 
-        traffic.forEach(car => {
+        traffic.forEach(car=> {
             for(let i=0;i<car.polygon.length;i++){
                 const touch= getTouch(
                     ray[0],
