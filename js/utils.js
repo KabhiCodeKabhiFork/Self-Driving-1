@@ -14,13 +14,7 @@ function getTouch(a1,a2,b1,b2){
         if(0 <= ua && ua <= 1 && 0 <= ub && ub <= 1){
             return {x:lerp(a1.x,a2.x,ua),y:lerp(a1.y,a2.y,ua),offset:ua};
         }
-        // else{
-        //     return null;
-        // }
     }
-    // else{
-    //     return null;
-    // }
 }
 
 function polygonTouch(polygon1,polygon2){
@@ -28,9 +22,9 @@ function polygonTouch(polygon1,polygon2){
         for(let j=0;j<polygon2.length-1;j++){
             const touch = getTouch(
                 polygon1[i],
-                polygon1[i+1],
+                polygon1[(i+1)%polygon1.length],
                 polygon2[j],
-                polygon2[j+1]);
+                polygon2[(j+1)%polygon2.length]);
             if(touch){
                 return true;
             }

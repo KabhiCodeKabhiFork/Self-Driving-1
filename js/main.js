@@ -2,13 +2,13 @@ carCanvas.height = window.innerHeight; //This is not a good practice to use carC
 carCanvas.width = 200;
 networkCanvas.height = window.innerHeight; //This is not a good practice to use carCanvas just like this because carCanvas is a global variable and if it is modified elsewhere it can change here too
 networkCanvas.width = 300;
-
+const mutationRate = document.getElementById("mutationRate");
 const carCtx = carCanvas.getContext('2d');
 const networkCtx = networkCanvas.getContext('2d');
 const road = new Road(carCanvas.width/2,carCanvas.width*0.7);//Adding a new road object
 N =100;
 const cars = generateCars(N); //Adding a new car object
-console.log(cars[0].brain);
+// console.log(cars[0].brain);
 const traffic= [
     new Car(100,-100,30,50,"DUMMY",2)
 ]
@@ -19,12 +19,20 @@ if(localStorage.getItem("bestBrain")){
     for(let i=0;i<cars.length;i++){
         cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
         if(i>0){
-                NeuralNetwork.mutate(cars[i].brain,0.12);
+                NeuralNetwork.mutate(cars[i].brain,mutationRate.value/100 || 0.12);
             }
-            // console.log(cars[i].brain);
     }
 }
-    // console.log(cars[0].brain);
+function doIt(){
+    if(localStorage.getItem("bestBrain")){
+        for(let i=0;i<cars.length;i++){
+            cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
+            if(i>0){
+                    NeuralNetwork.mutate(cars[i].brain,mutationRate.value/100 || 0.08);
+                }
+        }
+    }
+}
 
 animate();
 
@@ -82,21 +90,4 @@ carCanvas.addEventListener('click', function(event){
     let x = event.clientX - carCanvas.getBoundingClientRect().left;
     let y = bestCar.y - carCanvas.height*0.7+event.clientY - carCanvas.getBoundingClientRect().top;
     traffic.push(new Car(x, y, 30, 50, "DUMMY", 2));
-});
-
-numberOfCarsInput.addEventListener('change', function (event) {
-    // Get the new value of N from the input
-    const newN = parseInt(event.target.value);
-
-    // Check if the new value is valid
-    if (newN >= 1) {
-        // Update the value of N in local storage
-        localStorage.setItem('numberOfCars', newN);
-
-        // Refresh the page
-        location.reload();
-    } else {
-        // Handle invalid input (optional)
-        console.log("Invalid input value. Please enter a number greater than or equal to 1.");
-    }
 });
