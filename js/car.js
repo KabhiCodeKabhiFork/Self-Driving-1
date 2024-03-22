@@ -49,15 +49,15 @@ class Car{
     }
     #assessDamage(borders, traffic){
         for(let i=0;i<borders.length;i++){
-            if(polygonTouch([...this.polygon,this.polygon[0]],
-                borders[i] )){
+            if(polygonTouch(this.polygon,
+                borders[i])){
                 return true;
             }
         }
         for(let i=0;i<traffic.length;i++){
-            const poly= traffic[i].polygon;
-            if(polygonTouch([...this.polygon,this.polygon[0]],
-                [...poly,poly[0]])){
+            
+            if(polygonTouch(this.polygon,
+                traffic[i].polygon)){
                 return true;
             }
         }
@@ -76,12 +76,12 @@ class Car{
             y: this.y - Math.cos(this.angle+alpha)*radius
         });
         points.push({
-            x: this.x - Math.sin(Math.PI+this.angle-alpha)*radius,
-            y: this.y - Math.cos(Math.PI+this.angle-alpha)*radius
+            x: this.x + Math.sin(this.angle-alpha)*radius,
+            y: this.y + Math.cos(this.angle-alpha)*radius
         });
         points.push({
-            x: this.x - Math.sin(Math.PI+this.angle+alpha)*radius,
-            y: this.y - Math.cos(Math.PI+this.angle+alpha)*radius
+            x: this.x + Math.sin(this.angle+alpha)*radius,
+            y: this.y + Math.cos(this.angle+alpha)*radius
         });
         return points;
     }

@@ -36,12 +36,12 @@ class Sensor{
         });
 
         traffic.forEach(car => {
-            for(let i=0;i<car.polygon.length-1;i++){
+            for(let i=0;i<car.polygon.length;i++){
                 const touch= getTouch(
                     ray[0],
                     ray[1],
                     car.polygon[i],
-                    car.polygon[i+1]);
+                    car.polygon[(i+1)%car.polygon.length]);
 
                 if(touch){
                     touches.push(touch);
